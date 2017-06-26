@@ -1,0 +1,19 @@
+{
+    "name": "milax/mconsole-personal",
+    "description": "Create personals lists",
+    "authors": [
+        {
+            "name": "Vladimir Rudenko",
+            "email": "rudenko@milax.ru"
+        }
+    ],
+    "require": {
+        "milax/mconsole": "^0.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Milax\\Mconsole\\Personal\\": "src/Milax/Mconsole/Personal/"
+        }
+    },
+    "minimum-stability": "stable"
+}
