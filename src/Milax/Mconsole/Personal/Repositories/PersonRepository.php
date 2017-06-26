@@ -3,10 +3,10 @@
 namespace Milax\Mconsole\Personal\Repositories;
 
 use Milax\Mconsole\Repositories\EloquentRepository;
-use Milax\Mconsole\Personal\Models\Person as Repository;
+use Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository as Repository;
 use Milax\Mconsole\Contracts\ContentCompiler;
 
-class PersonRepositroy extends EloquentRepository implements Repository
+class PersonRepository extends EloquentRepository implements Repository
 {
     public $model = \Milax\Mconsole\Personal\Models\Person::class;
     
