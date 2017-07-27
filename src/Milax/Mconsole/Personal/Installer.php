@@ -8,13 +8,22 @@ class Installer implements ModuleInstaller
 {
     public static $options = [
         [
-            'group' => 'mconsole::personal.options.settings.group',
-            'label' => 'mconsole::personal.options.presets.name',
+            'group' => 'mconsole::personal.settings.group.name',
+            'label' => 'mconsole::personal.settings.presets',
             'key' => 'personal_show_presets',
-            'value' => '0',
+            'value' => 0,
             'type' => 'select',
+            'rules' => null,
             'options' => ['1' => 'mconsole::settings.options.on', '0' => 'mconsole::settings.options.off'],
-            'enabled' => 1,
+        ],
+        [
+            'group' => 'mconsole::personal.settings.group.name',
+            'label' => 'mconsole::personal.settings.cover',
+            'key' => 'personal_has_cover',
+            'value' => 1,
+            'type' => 'select',
+            'rules' => null,
+            'options' => ['1' => 'mconsole::settings.options.on', '0' => 'mconsole::settings.options.off'],
         ],
     ];
     
@@ -65,7 +74,7 @@ class Installer implements ModuleInstaller
         app('API')->options->uninstall(self::$options);
         app('API')->presets->uninstall(self::$presets);
         
-        $repository = new PersonalRepository(Person::class);
+        $repository = app('Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository');
         foreach ($repository->get() as $instance) {
             $instance->delete();
         }

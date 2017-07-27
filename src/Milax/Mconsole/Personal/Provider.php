@@ -13,9 +13,11 @@ class Provider extends ServiceProvider
      */
     public function boot()
     {
-        // ..
+        view()->composer('mconsole::personal.form', function ($view) {
+            $view->with('languages', app('Milax\Mconsole\Contracts\Repositories\LanguagesRepository')->get());
+        });
     }
-    
+
     /**
      * Register the service provider.
      *

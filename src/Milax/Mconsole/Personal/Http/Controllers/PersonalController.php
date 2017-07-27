@@ -15,24 +15,24 @@ use Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository;
 class PersonalController extends Controller
 {
     use \HasRedirects, \DoesNotHaveShow, \UseLayout;
-    
+
     protected $model = 'Milax\Mconsole\Personal\Models\Person';
-    
+
     /**
      * Create new class instance
      */
     public function __construct(ListRenderer $list, FormRenderer $form, PersonRepository $repository)
     {
         parent::__construct();
-        
+
         $this->setCaption(trans('mconsole::personal.menu'));
-        
+
         $this->list = $list;
         $this->form = $form;
         $this->repository = $repository;
         $this->redirectTo = mconsole_url('personal');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +46,7 @@ class PersonalController extends Controller
                 '1' => trans('mconsole::settings.options.on'),
                 '0' => trans('mconsole::settings.options.off'),
             ], true);
-        
+
         return $this->list->setQuery($this->repository->index())->setAddAction('personal/create')->render(function ($item) {
             return [
                 trans('mconsole::tables.state') => view('mconsole::indicators.state', $item),
@@ -86,7 +86,7 @@ class PersonalController extends Controller
     {
         $person = $this->repository->create($request->all());
         $this->handleUploads($person);
-        
+
         $this->redirect();
     }
 
@@ -124,10 +124,10 @@ class PersonalController extends Controller
     public function update(PersonalRequest $request, $id)
     {
         $person = $this->repository->find($id);
-        
+
         $this->handleUploads($person);
         $person->update($request->all());
-        
+
         $this->redirect();
     }
 
@@ -140,14 +140,32 @@ class PersonalController extends Controller
     public function destroy($id)
     {
         $person = $this->repository->find($id);
-        
+
         if ($person->system) {
             return redirect()->back()->withErrors(trans('mconsole::mconsole.errors.system'));
         }
-        
+
         $person->delete();
-        
+
         $this->redirect();
     }
-    
+
+    /**
+     * Handle uploads upload
+     *
+     * @param Milax\Mconsole\Personal\Models\Person $person [Person object]
+     * @return void
+     */
+    protected function handleUploads($person)
+    {
+        // Images processing
+        app('API')->uploads->handle(function ($uploads) use (&$person) {
+            app('API')->uploads->attach([
+                'group' => 'cover',
+                'uploads' => $uploads,
+                'related' => $person,
+                'unique' => true,
+            ]);
+        });
+    }
 }

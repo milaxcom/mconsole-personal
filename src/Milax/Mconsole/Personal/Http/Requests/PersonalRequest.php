@@ -14,7 +14,7 @@ class PersonalRequest extends FormRequest
     {
         $this->repository = $repository;
     }
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -36,19 +36,19 @@ class PersonalRequest extends FormRequest
             case 'PUT':
             case 'UPDATE':
                 return [
-                    'slug' => 'max:255|unique:personal,slug,' . $this->repository->find($this->personal)->id,
+                    'slug' => 'max:255|unique:people,slug,' . $this->repository->find($this->personal)->id,
                     'name' => 'required|max:255',
                 ];
                 break;
-            
+
             default:
                 return [
-                    'slug' => 'max:255|unique:personal',
+                    'slug' => 'max:255|unique:people',
                     'name' => 'required|max:255',
                 ];
         }
     }
-    
+
     /**
      * Set custom validator attribute names
      *
@@ -57,8 +57,8 @@ class PersonalRequest extends FormRequest
     protected function getValidatorInstance()
     {
         $validator = parent::getValidatorInstance();
-        $validator->setAttributeNames(trans('mconsole::pages.form'));
-        
+        $validator->setAttributeNames(trans('mconsole::personal.form'));
+
         return $validator;
     }
 }
