@@ -39,4 +39,48 @@ class Person extends Model
             $this->attributes['slug'] = str_slug($value);
         }
     }
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
+
+    /**
+     * Get person by slug
+     *
+     * @param  string $slug
+     * @param  string $lang [Language key]
+     * @return Milax\Mconsole\Personal|Models\Person
+     */
+    public function findBySlug($slug, $lang = null)
+    {
+        $person = $this->query()->where('slug', $slug)->firstOrFail();
+        $localized = app('Milax\Mconsole\Contracts\ContentCompiler')->set($person)->localize($lang)->render()->get();
+
+        return $localized;
+    }
+
+    /**
+     * Get localized persons
+     *
+     * @param  Builder $query
+     *
+     * @return Collection
+     */
+    public function getCompiled($query = null)
+    {
+        if (is_null($query)) {
+            $query = $this->query()->enabled();
+        } else {
+            $query = $query->enabled();
+        }
+
+        $persons = $query->get();
+
+        foreach ($persons as $key => $person) {
+            $persons[$key] = $this->findBySlug($person->slug, \App::getLocale());
+        }
+
+        return $persons;
+    }
 }

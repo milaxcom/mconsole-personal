@@ -7,7 +7,6 @@ use Milax\Mconsole\Personal\Http\Requests\PersonalRequest;
 use Milax\Mconsole\Personal\Models\Person;
 use Milax\Mconsole\Contracts\ListRenderer;
 use Milax\Mconsole\Contracts\FormRenderer;
-use Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository;
 
 /**
  * Personal module controller file
@@ -21,7 +20,7 @@ class PersonalController extends Controller
     /**
      * Create new class instance
      */
-    public function __construct(ListRenderer $list, FormRenderer $form, PersonRepository $repository)
+    public function __construct(ListRenderer $list, FormRenderer $form, Person $person)
     {
         parent::__construct();
 
@@ -29,7 +28,7 @@ class PersonalController extends Controller
 
         $this->list = $list;
         $this->form = $form;
-        $this->repository = $repository;
+        $this->person = $person;
         $this->redirectTo = mconsole_url('personal');
     }
 
@@ -47,7 +46,7 @@ class PersonalController extends Controller
                 '0' => trans('mconsole::settings.options.off'),
             ], true);
 
-        return $this->list->setQuery($this->repository->index())->setAddAction('personal/create')->render(function ($item) {
+        return $this->list->setQuery($this->person)->setAddAction('personal/create')->render(function ($item) {
             return [
                 trans('mconsole::tables.state') => view('mconsole::indicators.state', $item),
                 trans('mconsole::tables.id') => $item->id,
@@ -84,7 +83,7 @@ class PersonalController extends Controller
      */
     public function store(PersonalRequest $request)
     {
-        $person = $this->repository->create($request->all());
+        $person = $this->person->create($request->all());
         $this->handleUploads($person);
 
         $this->redirect();
@@ -110,7 +109,7 @@ class PersonalController extends Controller
     public function edit($id)
     {
         return $this->form->render('mconsole::personal.form', [
-            'item' => $this->repository->query()->with('uploads')->findOrFail($id),
+            'item' => $this->person->query()->with('uploads')->findOrFail($id),
         ]);
     }
 
@@ -123,7 +122,7 @@ class PersonalController extends Controller
      */
     public function update(PersonalRequest $request, $id)
     {
-        $person = $this->repository->find($id);
+        $person = $this->person->find($id);
 
         $this->handleUploads($person);
         $person->update($request->all());
@@ -139,7 +138,7 @@ class PersonalController extends Controller
      */
     public function destroy($id)
     {
-        $person = $this->repository->find($id);
+        $person = $this->person->find($id);
 
         if ($person->system) {
             return redirect()->back()->withErrors(trans('mconsole::mconsole.errors.system'));

@@ -3,16 +3,16 @@
 namespace Milax\Mconsole\Personal\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository;
+use Milax\Mconsole\Personal\Models\Person;
 
 class PersonalRequest extends FormRequest
 {
     /**
      * Create new instance
      */
-    public function __construct(PersonRepository $repository)
+    public function __construct()
     {
-        $this->repository = $repository;
+        //
     }
 
     /**
@@ -36,7 +36,7 @@ class PersonalRequest extends FormRequest
             case 'PUT':
             case 'UPDATE':
                 return [
-                    'slug' => 'max:255|unique:people,slug,' . $this->repository->find($this->personal)->id,
+                    'slug' => 'max:255|unique:people,slug,' . $this->personal,
                     'name' => 'required|max:255',
                 ];
                 break;

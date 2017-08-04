@@ -25,6 +25,6 @@ class Provider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository', 'Milax\Mconsole\Personal\Repositories\PersonRepository');
+        //
     }
 }
