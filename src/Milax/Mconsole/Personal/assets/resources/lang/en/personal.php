@@ -29,6 +29,7 @@ return [
         'cover' => 'Cover',
         'slugify' => 'Generate',
         'enabled' => 'Published',
+        'weight' => 'Weight',
     ],
     'settings' => [
         'group' => [
@@ -45,5 +46,8 @@ return [
         'update' => 'Personal: updating',
         'show' => 'Personal: view',
         'destroy' => 'Personal: delete',
+    ],
+    'info' => [
+        'weight' => 'The higher the weight, the lower the record is displayed.',
     ],
 ];

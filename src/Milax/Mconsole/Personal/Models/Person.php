@@ -9,7 +9,7 @@ class Person extends Model
 {
     use \CascadeDelete, \HasUploads, \HasTags, \HasState;
 
-    protected $fillable = ['slug', 'title', 'description', 'name', 'preview', 'biography', 'position', 'contacts', 'hired_at', 'enabled'];
+    protected $fillable = ['slug', 'title', 'description', 'name', 'preview', 'biography', 'position', 'contacts', 'hired_at', 'enabled', 'weight'];
 
     protected $dates = [
         'hired_at',

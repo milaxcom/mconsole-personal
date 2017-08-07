@@ -148,6 +148,13 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
+				@include('mconsole::partials.note', [
+					'text' => trans('mconsole::personal.info.weight'),
+				])
+				@include('mconsole::forms.text', [
+					'label' => trans('mconsole::personal.form.weight'),
+					'name' => 'weight',
+				])
                 @include('mconsole::forms.select', [
                     'label' => trans('mconsole::personal.form.enabled'),
                     'name' => 'enabled',
