@@ -38,6 +38,7 @@ class PersonalRequest extends FormRequest
                 return [
                     'slug' => 'max:255|unique:people,slug,' . $this->personal,
                     'name' => 'required|max:255',
+                    'weight' => 'required',
                 ];
                 break;
 
@@ -45,6 +46,7 @@ class PersonalRequest extends FormRequest
                 return [
                     'slug' => 'max:255|unique:people',
                     'name' => 'required|max:255',
+                    'weight' => 'required',
                 ];
         }
     }
