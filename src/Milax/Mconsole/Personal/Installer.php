@@ -74,7 +74,7 @@ class Installer implements ModuleInstaller
         app('API')->options->uninstall(self::$options);
         app('API')->presets->uninstall(self::$presets);
         
-        $repository = app('Milax\Mconsole\Personal\Contracts\Repositories\PersonRepository');
+        $repository = app('Milax\Mconsole\Personal\Models\Person');
         foreach ($repository->get() as $instance) {
             $instance->delete();
         }
