@@ -19,6 +19,9 @@ return [
         'bindings' => [],
         'dependencies' => [],
     ],
+    'tags' => [
+        'personal',
+    ],
     'install' => function () {
         Installer::install();
     },
