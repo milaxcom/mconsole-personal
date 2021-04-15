@@ -7,7 +7,7 @@ use Request;
 
 class Person extends Model
 {
-    use \CascadeDelete, \HasUploads, \HasTags, \HasState;
+    use \CascadeDelete, \HasUploads, \HasTags, \HasState, \TaggableRepository;
 
     protected $fillable = ['slug', 'title', 'description', 'name', 'preview', 'biography', 'position', 'contacts', 'hired_at', 'enabled', 'weight'];
 
@@ -58,6 +58,20 @@ class Person extends Model
         $localized = app('Milax\Mconsole\Contracts\ContentCompiler')->set($person)->localize($lang)->render()->get();
 
         return $localized;
+    }
+
+    /**
+     * Get person by tag
+     *
+     * @param  string $tagName
+     * 
+     * @return Collection
+     */
+    public function getByTag($tagName)
+    {
+        $query = $this->tagQuery($tagName)->get();
+
+        return $this->getCompiled($query);
     }
 
     /**
