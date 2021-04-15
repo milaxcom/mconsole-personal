@@ -85,6 +85,7 @@ class PersonalController extends Controller
     {
         $person = $this->person->create($request->all());
         $this->handleUploads($person);
+        app('API')->tags->sync($person);
 
         $this->redirect();
     }
@@ -125,6 +126,8 @@ class PersonalController extends Controller
         $person = $this->person->find($id);
 
         $this->handleUploads($person);
+        app('API')->tags->sync($person);
+        
         $person->update($request->all());
 
         $this->redirect();
