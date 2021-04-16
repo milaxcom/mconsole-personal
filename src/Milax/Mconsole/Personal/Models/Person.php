@@ -67,32 +67,14 @@ class Person extends Model
      * 
      * @return Collection
      */
-    public function getByTag($tagName)
+    public function getByTag($tagName, $orderBy = 'weight')
     {
-        $query = $this->tagQuery($tagName)->get();
-
-        return $this->getCompiled($query);
-    }
-
-    /**
-     * Get localized persons
-     *
-     * @param  Builder $query
-     *
-     * @return Collection
-     */
-    public function getCompiled($query = null)
-    {
-        if (is_null($query)) {
-            $query = $this->query()->enabled();
-        } else {
-            $query = $query->enabled();
-        }
-
-        $persons = $query->get();
+        $persons = $this->query()->enabled()->with(['tags' => function($query) use ($tagName) {
+            $query->whereName($tagName);
+        }])->has('tags')->orderBy($orderBy)->get();
 
         foreach ($persons as $key => $person) {
-            $persons[$key] = $this->findBySlug($person->slug, \App::getLocale());
+            $persons[$key] = app('Milax\Mconsole\Contracts\ContentCompiler')->set($person)->localize(\App::getLocale())->render()->get();
         }
 
         return $persons;
