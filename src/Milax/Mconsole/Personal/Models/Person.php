@@ -4,6 +4,7 @@ namespace Milax\Mconsole\Personal\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Request;
+use Str;
 
 class Person extends Model
 {
@@ -32,11 +33,12 @@ class Person extends Model
      */
     public function setSlugAttribute($value)
     {
-        if (strlen($value) == 0) {
+        if (is_null($value)) {
             $name = Request::input('name');
-            $this->attributes['slug'] = str_slug($name);
+            $name = is_array($name) ? array_shift($name) : $name;
+            $this->attributes['slug'] = Str::slug($name);
         } else {
-            $this->attributes['slug'] = str_slug($value);
+            $this->attributes['slug'] = $value;
         }
     }
 
