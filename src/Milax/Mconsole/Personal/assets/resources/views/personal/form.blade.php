@@ -17,7 +17,7 @@
 					<div class="form-group">
 						<label>{{ trans('mconsole::personal.form.slug') }}</label>
 						<div class="input-group">
-							{!! Form::text('slug', !is_null(Form::getValueAttribute('slug')) ? null : isset($item) ? $item->slug : null, ['class' => 'form-control']) !!}
+							{!! Form::text('slug', !is_null(Form::getValueAttribute('slug')) ? null : (isset($item) ? $item->slug : null), ['class' => 'form-control']) !!}
 							<span class="input-group-btn">
 								<button class="btn blue slugify" type="button">
 								<i class="fa fa-refresh fa-fw"></i> {{ trans('mconsole::personal.form.slugify') }}</button>
@@ -101,26 +101,43 @@
 		</div>
 	</div>
 	<div class="col-lg-5 col-md-6">
-        @if (app('API')->options->getByKey('personal_has_cover'))
+        @if (app('API')->options->getByKey('personal_has_cover') || app('API')->options->getByKey('personal_has_gallery'))
             <div class="portlet light">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <span class="caption-subject font-blue sbold uppercase">{{ trans('mconsole::personal.form.cover') }}</span>
-                    </div>
-                </div>
-                <div class="portlet-body form">
-                    @include('mconsole::forms.upload', [
-                        'type' => MconsoleUploadType::Image,
-                        'multiple' => false,
-                        'group' => 'cover',
-                        'preset' => 'personal',
-                        'id' => isset($item) ? $item->id : null,
-                        'model' => 'Milax\Mconsole\Personal\Models\Person',
-                    ])
-                </div>
+				@if (app('API')->options->getByKey('personal_has_cover'))
+					<div class="portlet-title">
+						<div class="caption">
+							<span class="caption-subject font-blue sbold uppercase">{{ trans('mconsole::personal.form.cover') }}</span>
+						</div>
+					</div>
+					<div class="portlet-body form">
+						@include('mconsole::forms.upload', [
+							'type' => MconsoleUploadType::Image,
+							'multiple' => false,
+							'group' => 'cover',
+							'preset' => 'personal',
+							'id' => isset($item) ? $item->id : null,
+							'model' => 'Milax\Mconsole\Personal\Models\Person',
+						])
+					</div>
+				@endif
+				@if (app('API')->options->getByKey('personal_has_gallery'))
+					@include('mconsole::partials.portlet-title', [
+						'title' => trans('mconsole::personal.form.gallery'),
+					])
+					<div class="portlet-body">
+						@include('mconsole::forms.upload', [
+							'type' => MconsoleUploadType::Image,
+							'multiple' => true,
+							'group' => 'gallery',
+							'preset' => 'personal-gallery',
+							'id' => isset($item) ? $item->id : null,
+							'model' => 'Milax\Mconsole\Pages\Models\Person',
+						])
+					</div>
+				@endif
             </div>
-        @endif
-
+		@endif
+        
 		<div class="portlet light">
 			<div class="portlet-title">
 				<div class="caption">

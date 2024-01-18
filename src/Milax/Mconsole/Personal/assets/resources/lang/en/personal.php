@@ -36,6 +36,7 @@ return [
             'name' => 'Personal',
         ],
         'cover' => 'Use cover',
+        'gallery' => 'Use gallery',
         'presets' => 'Enable to change presets',
     ],
     'acl' => [

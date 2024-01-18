@@ -25,6 +25,15 @@ class Installer implements ModuleInstaller
             'rules' => null,
             'options' => ['1' => 'mconsole::settings.options.on', '0' => 'mconsole::settings.options.off'],
         ],
+        [
+            'group' => 'mconsole::personal.settings.group.name',
+            'label' => 'mconsole::personal.settings.gallery',
+            'key' => 'personal_has_gallery',
+            'value' => 0,
+            'type' => 'select',
+            'rules' => null,
+            'options' => ['1' => 'mconsole::settings.options.on', '0' => 'mconsole::settings.options.off'],
+        ],
     ];
     
     public static $presets = [
@@ -46,6 +55,39 @@ class Installer implements ModuleInstaller
                 [
                     'operation' => 'save',
                     'path' => 'personal',
+                    'quality' => '',
+                ],
+                [
+                    'operation' => 'resize',
+                    'type' => 'center',
+                    'width' => '90',
+                    'height' => '90',
+                ],
+                [
+                    'operation' => 'save',
+                    'path' => 'preview',
+                    'quality' => '',
+                ],
+            ],
+        ],
+        [
+            'key' => 'personal-gallery',
+            'type' => \MconsoleUploadType::Image,
+            'name' => 'Personal gallery',
+            'path' => 'personal-gallery',
+            'extensions' => ['jpg', 'jpeg', 'png'],
+            'min_width' => 800,
+            'min_height' => 600,
+            'operations' => [
+                [
+                    'operation' => 'resize',
+                    'type' => 'ratio',
+                    'width' => '800',
+                    'height' => '600',
+                ],
+                [
+                    'operation' => 'save',
+                    'path' => 'gallery',
                     'quality' => '',
                 ],
                 [

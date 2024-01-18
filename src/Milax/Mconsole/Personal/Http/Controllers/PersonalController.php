@@ -163,6 +163,11 @@ class PersonalController extends Controller
         // Images processing
         app('API')->uploads->handle(function ($uploads) use (&$person) {
             app('API')->uploads->attach([
+                'group' => 'gallery',
+                'uploads' => $uploads,
+                'related' => $person,
+            ]);
+            app('API')->uploads->attach([
                 'group' => 'cover',
                 'uploads' => $uploads,
                 'related' => $person,
