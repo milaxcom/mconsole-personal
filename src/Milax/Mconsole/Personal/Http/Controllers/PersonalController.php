@@ -16,6 +16,7 @@ class PersonalController extends Controller
     use \HasRedirects, \DoesNotHaveShow, \UseLayout;
 
     protected $model = 'Milax\Mconsole\Personal\Models\Person';
+    protected $list, $form, $redirectTo, $person, $module;
 
     /**
      * Create new class instance
@@ -52,12 +53,12 @@ class PersonalController extends Controller
                 trans('mconsole::tables.id') => $item->id,
                 trans('mconsole::personal.table.updated') => $item->updated_at->format('m.d.Y'),
                 trans('mconsole::personal.table.name') => collect($item->name)->transform(function ($val, $key) {
-                    if (strlen($val) > 0) {
+                    if (!is_null($val) && strlen($val) > 0) {
                         return sprintf('<div class="label label-info">%s</div> %s', $key, $val);
                     }
                 })->values()->implode('<br />'),
                 trans('mconsole::personal.table.position') => collect($item->position)->transform(function ($val, $key) {
-                    if (strlen($val) > 0) {
+                    if (!is_null($val) && strlen($val) > 0) {
                         return sprintf('<div class="label label-info">%s</div> %s', $key, $val);
                     }
                 })->values()->implode('<br />'),

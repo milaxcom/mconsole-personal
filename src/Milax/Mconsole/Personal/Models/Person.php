@@ -12,10 +12,6 @@ class Person extends Model
 
     protected $fillable = ['slug', 'title', 'description', 'name', 'preview', 'biography', 'position', 'contacts', 'hired_at', 'enabled', 'weight'];
 
-    protected $dates = [
-        'hired_at',
-    ];
-
     protected $casts = [
         'name' => 'array',
         'preview' => 'array',
@@ -24,6 +20,7 @@ class Person extends Model
         'contacts' => 'array',
         'title' => 'array',
         'description' => 'array',
+        'hired_at' => 'datetime',
     ];
 
     /**

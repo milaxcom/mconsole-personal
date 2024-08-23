@@ -131,7 +131,7 @@
 							'group' => 'gallery',
 							'preset' => 'personal-gallery',
 							'id' => isset($item) ? $item->id : null,
-							'model' => 'Milax\Mconsole\Pages\Models\Person',
+							'model' => 'Milax\Mconsole\Personal\Models\Person',
 						])
 					</div>
 				@endif
